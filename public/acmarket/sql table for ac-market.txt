@@ -1,0 +1,200 @@
+CREATE TABLE vendor (
+    v_id VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    v_email VARCHAR(255) NOT NULL UNIQUE,
+    v_password VARCHAR(255) NOT NULL,
+    v_session_id VARCHAR(255) NOT NULL,
+    v_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    v_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-----------------------------------------------------------------------------------
+
+Sure! Here's the full set of **MySQL `CREATE TABLE` statements** for a simplified version of an account marketplace like [accsmarket.com](https://accsmarket.com). These tables cover users, accounts, transactions, payments, messaging, and more.
+
+---
+
+### 🧑‍💼 `users`
+
+```sql
+CREATE TABLE users (
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('buyer', 'seller', 'admin') DEFAULT 'buyer',
+  status ENUM('active', 'suspended') DEFAULT 'active',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+---
+
+### 📱 `accounts`
+
+```sql
+CREATE TABLE accounts (
+  account_id INT AUTO_INCREMENT PRIMARY KEY,
+  platform VARCHAR(50) NOT NULL,
+  account_details TEXT NOT NULL,
+  description TEXT,
+  price DECIMAL(10, 2) NOT NULL,
+  seller_id INT,
+  status ENUM('available', 'sold', 'under_review') DEFAULT 'available',
+  listing_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (seller_id) REFERENCES users(user_id)
+);
+```
+
+---
+
+### 💸 `transactions`
+
+```sql
+CREATE TABLE transactions (
+  transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+  buyer_id INT,
+  account_id INT,
+  purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  amount DECIMAL(10, 2) NOT NULL,
+  payment_status ENUM('pending', 'completed', 'refunded') DEFAULT 'pending',
+  FOREIGN KEY (buyer_id) REFERENCES users(user_id),
+  FOREIGN KEY (account_id) REFERENCES accounts(account_id)
+);
+```
+
+---
+
+### 🧾 `payments`
+
+```sql
+CREATE TABLE payments (
+  payment_id INT AUTO_INCREMENT PRIMARY KEY,
+  transaction_id INT,
+  payment_method VARCHAR(50),
+  payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+  FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id)
+);
+```
+
+---
+
+### 💬 `messages`
+
+```sql
+CREATE TABLE messages (
+  message_id INT AUTO_INCREMENT PRIMARY KEY,
+  sender_id INT,
+  receiver_id INT,
+  content TEXT NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_read BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (sender_id) REFERENCES users(user_id),
+  FOREIGN KEY (receiver_id) REFERENCES users(user_id)
+);
+```
+
+---
+
+### ⭐ `reviews`
+
+```sql
+CREATE TABLE reviews (
+  review_id INT AUTO_INCREMENT PRIMARY KEY,
+  transaction_id INT,
+  reviewer_id INT,
+  rating INT CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id),
+  FOREIGN KEY (reviewer_id) REFERENCES users(user_id)
+);
+```
+
+---
+
+### 🗂️ `account_categories`
+
+```sql
+CREATE TABLE account_categories (
+  category_id INT AUTO_INCREMENT PRIMARY KEY,
+  category_name VARCHAR(50) NOT NULL,
+  description TEXT
+);
+```
+
+---
+
+### 🔖 `account_tags` + `account_tag_mapping`
+
+```sql
+CREATE TABLE account_tags (
+  tag_id INT AUTO_INCREMENT PRIMARY KEY,
+  tag_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE account_tag_mapping (
+  account_id INT,
+  tag_id INT,
+  PRIMARY KEY (account_id, tag_id),
+  FOREIGN KEY (account_id) REFERENCES accounts(account_id),
+  FOREIGN KEY (tag_id) REFERENCES account_tags(tag_id)
+);
+```
+
+---
+
+### 🧾 `support_tickets`
+
+```sql
+CREATE TABLE support_tickets (
+  ticket_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  subject VARCHAR(100),
+  description TEXT,
+  status ENUM('open', 'closed', 'pending') DEFAULT 'open',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+```
+
+---
+
+### ❤️ `favorites`
+
+```sql
+CREATE TABLE favorites (
+  favorite_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  account_id INT,
+  added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (account_id) REFERENCES accounts(account_id)
+);
+```
+
+---
+
+### 🔔 `notifications`
+
+```sql
+CREATE TABLE notifications (
+  notification_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  message TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+```
+
+---
+
+Let me know if you want me to:
+- Export these into a `.sql` file
+- Add sample data (for testing)
+- Help you import this into **phpMyAdmin** or **MySQL Workbench**
+- Or connect this to your **React + Vite** app via PHP or an API!
