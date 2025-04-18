@@ -1,14 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import AcHeader from '../components/ui/AcHeader';
-import { useState } from 'react';
-import { Button, ButtonToolbar, Modal, Placeholder } from 'rsuite';
+
+import { Button, ButtonToolbar } from 'rsuite';
 import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const { user } = useAuth(); // Assuming you have a useAuth hook to get user info
   console.log('user', user);
 
@@ -44,26 +40,8 @@ const Home = () => {
       </div>
 
       <ButtonToolbar>
-        <Button onClick={handleOpen}> Open</Button>
         <Button onClick={() => getData()}> Get Data</Button>
       </ButtonToolbar>
-
-      <Modal open={open} onClose={handleClose}>
-        <Modal.Header>
-          <Modal.Title>Modal Title</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Placeholder.Paragraph />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
-          <Button onClick={handleClose} appearance="subtle">
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };

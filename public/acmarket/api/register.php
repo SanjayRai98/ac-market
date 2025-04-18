@@ -22,7 +22,6 @@ if (!isset($data->email) || !isset($data->password)) {
 $name = $data->name;
 $email = $data->email;
 $password = $data->password;
-$role = $data->role ?? 'user'; // Optional role
 
 // Check if user already exists
 $checkSql = "SELECT * FROM users WHERE email = ?";
@@ -40,16 +39,14 @@ if ($checkResult->num_rows > 0) {
 // Hash password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-//generate secure user id
-$userId = uniqid();
 
 // Insert user
-$sql = "INSERT INTO users (user_id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssss", $userId, $name, $email, $hashedPassword, $role);
+$stmt->bind_param("sss", $name, $email, $hashedPassword);
 
 if ($stmt->execute()) {
-  echo json_encode(["message" => "User registered successfully.", "role" => $role]);
+  echo json_encode(["message" => "User registered successfully."]);
 } else {
   http_response_code(500);
   echo json_encode(["message" => "Registration failed."]);

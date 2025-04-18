@@ -42,18 +42,29 @@ if ($result->num_rows !== 1) {
 $user = $result->fetch_assoc();
 
 // Verify password
-if (!password_verify($password, $user['password_hash'])) {
+if (!password_verify($password, $user['password'])) {
   http_response_code(401);
   echo json_encode(["message" => "Invalid password."]);
   exit;
 }
 
 // JWT Payload
-$payload = [
+/*$payload = [
   "iss" => "http://localhost",             // Issuer
   "iat" => time(),                         // Issued at
   "exp" => time() + (60 * 60 * 24),        // Expires in 1 day
-  "user_id" => $user['user_id'],
+  "user_id" => $user['id'],
+  "email" => $user['email'],
+  "role" => $user['role']
+];*/
+
+// JWT Payload
+$payload = [
+  "iss" => "http://localhost",             // Issuer
+  "iat" => time(),                         // Issued at
+  "exp" => time() + (60),        // Expires in 1 minute
+  "name" => $user['username'],
+  "user_id" => $user['id'],
   "email" => $user['email'],
   "role" => $user['role']
 ];

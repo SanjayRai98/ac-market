@@ -4,6 +4,7 @@ import Home from './page/Home';
 import { ServerProvider } from './context/server.context';
 import { MessageProvider } from './context/message.context';
 import { AuthProvider } from './context/AuthContext';
+import Seller from './page/Seller';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/sellerdashboard" element={<Seller />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

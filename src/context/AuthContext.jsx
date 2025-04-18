@@ -10,11 +10,28 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      setUser({
-        email: payload.email,
-        role: payload.role,
-        user_id: payload.user_id,
-      });
+      // console.log('Payload:', payload);
+      // Check if the token is expired
+      const now = Math.floor(Date.now() / 1000);
+      // console.log('now', now);
+      // console.log('payload.exp', payload.exp);
+      if (payload.exp < now) {
+        // Token is expired
+        alert('Session expired. Please log in again.');
+        setToken(null);
+        localStorage.removeItem('token');
+        setUser(null);
+        return;
+      } else {
+        // Token is valid, set user state
+        // console.log('Token is valid, setting user state');
+
+        setUser({
+          email: payload.email,
+          role: payload.role,
+          user_id: payload.user_id,
+        });
+      }
     } else {
       setUser(null);
     }
