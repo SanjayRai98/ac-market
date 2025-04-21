@@ -1,10 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useToast } from './ToastProvider';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [user, setUser] = useState(null);
+
+  const toast = useToast();
 
   // Decode JWT to get user info
   useEffect(() => {
@@ -17,7 +20,8 @@ export const AuthProvider = ({ children }) => {
       // console.log('payload.exp', payload.exp);
       if (payload.exp < now) {
         // Token is expired
-        alert('Session expired. Please log in again.');
+        toast.error('Session expired. Please log in again.');
+        // alert('Session expired. Please log in again.');
         setToken(null);
         localStorage.removeItem('token');
         setUser(null);
@@ -27,6 +31,7 @@ export const AuthProvider = ({ children }) => {
         // console.log('Token is valid, setting user state');
 
         setUser({
+          name: payload.name,
           email: payload.email,
           role: payload.role,
           user_id: payload.user_id,
@@ -48,16 +53,20 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       localStorage.setItem('token', data.token);
       setToken(data.token);
+      toast.success('Login Successfully');
       return true;
     } else {
-      alert(data.message || 'Login failed');
+      toast.success(data.message || 'Login failed');
+      // alert(data.message || 'Login failed');
       return false;
     }
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    setUser(null);
     setToken(null);
+    toast.success('Logout Successfully');
   };
 
   const authFetch = async (url, options = {}) => {

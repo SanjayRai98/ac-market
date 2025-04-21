@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { Button, Form, Modal } from 'rsuite';
+import { useToast } from '../../context/ToastProvider';
 
 const RegisterModal = ({ registerModalShow, setRegisterModalShow }) => {
+  const toast = useToast();
+
   const [registerForm, setRegisterForm] = useState({
     name: '',
     email: '',
@@ -22,10 +25,12 @@ const RegisterModal = ({ registerModalShow, setRegisterModalShow }) => {
       const data = await res.json();
       console.log('Response:', data);
       if (res.ok) {
-        alert('Registration successful!');
+        toast.success('Registration successful!');
+        // alert('Registration successful!');
         setRegisterModalShow(false); // Close the modal on successful registration
       } else {
-        alert(data.message || 'Registration failed');
+        toast.error(data.message || 'Registration failed');
+        // alert(data.message || 'Registration failed');
       }
     } catch (error) {
       console.error('Error:', error);

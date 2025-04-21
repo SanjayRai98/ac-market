@@ -46,7 +46,7 @@ try {
             $subId = $sub['id'];
 
             // Get accounts for this subcategory
-            $accStmt = $pdo->prepare("SELECT account_id, title, description, price, stock FROM accounts WHERE subcategory_id = ?");
+            $accStmt = $pdo->prepare("SELECT id, title, description, price, stock FROM accounts WHERE subcategory_id = ?");
             $accStmt->execute([$subId]);
             $accounts = $accStmt->fetchAll();
 

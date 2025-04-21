@@ -84,18 +84,18 @@ const SellerDashboard = () => {
         <Content>
           {activeKey === 'add' && (
             <Panel header="Upload Account" bordered>
-              {/* <Form fluid onChange={setFormData} formValue={formData}>
+              <Form fluid onChange={setFormData} formValue={formData}>
                 <Form.Group>
                   <Form.ControlLabel>Title</Form.ControlLabel>
-                  <Form.FormControl name="title" />
+                  <Form.Control name="title" />
                 </Form.Group>
                 <Form.Group>
                   <Form.ControlLabel>Price</Form.ControlLabel>
-                  <Form.FormControl name="price" type="number" />
+                  <Form.Control name="price" type="number" />
                 </Form.Group>
                 <Form.Group>
                   <Form.ControlLabel>Description</Form.ControlLabel>
-                  <Form.FormControl
+                  <Form.Control
                     rows={5}
                     name="description"
                     componentClass="textarea"
@@ -103,16 +103,16 @@ const SellerDashboard = () => {
                 </Form.Group>
                 <Form.Group>
                   <Form.ControlLabel>Category ID</Form.ControlLabel>
-                  <Form.FormControl name="category_id" />
+                  <Form.Control name="category_id" />
                 </Form.Group>
                 <Form.Group>
                   <Form.ControlLabel>Subcategory ID</Form.ControlLabel>
-                  <Form.FormControl name="subcategory_id" />
+                  <Form.Control name="subcategory_id" />
                 </Form.Group>
                 <Button appearance="primary" onClick={handleSubmit}>
                   Submit
                 </Button>
-              </Form> */}
+              </Form>
               <h1>Upload Account</h1>
               <p>Form to upload account details</p>
             </Panel>

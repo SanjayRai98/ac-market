@@ -1,8 +1,9 @@
-import { Helmet } from 'react-helmet-async';
 import AcHeader from '../components/ui/AcHeader';
 
 import { Button, ButtonToolbar } from 'rsuite';
 import { useAuth } from '../context/AuthContext';
+import DisplayProduct from '../components/homecomponent/DisplayProduct';
+import ProductsDisplay from '../components/homecomponent/ProductDisplay';
 
 const Home = () => {
   const { user } = useAuth(); // Assuming you have a useAuth hook to get user info
@@ -21,15 +22,13 @@ const Home = () => {
 
   return (
     <div>
-      <Helmet>
-        <title>Home Page</title>
-        <meta
-          name="description"
-          content="Welcome to the home page of our application."
-        />
-        <link rel="canonical" href="/" />
-        <meta property="og:title" content="Home Page" />
-      </Helmet>
+      <title>Home Page</title>
+      <meta
+        name="description"
+        content="Welcome to the home page of our application."
+      />
+      <link rel="canonical" href="/" />
+      <meta property="og:title" content="Home Page" />
 
       <AcHeader />
 
@@ -42,6 +41,14 @@ const Home = () => {
       <ButtonToolbar>
         <Button onClick={() => getData()}> Get Data</Button>
       </ButtonToolbar>
+
+      <div>
+        <DisplayProduct />
+      </div>
+
+      {/* <div>
+        <ProductsDisplay />
+      </div> */}
     </div>
   );
 };

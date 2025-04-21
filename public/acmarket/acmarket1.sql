@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2025 at 01:58 PM
+-- Generation Time: Apr 19, 2025 at 05:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -35,6 +35,7 @@ CREATE TABLE `accounts` (
   `title` varchar(255) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `description` text DEFAULT NULL,
+  `stock` int(11) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -61,6 +62,14 @@ CREATE TABLE `categories` (
   `id` char(36) NOT NULL DEFAULT uuid(),
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+('140cb3ea-1d31-11f0-befd-54e1ad54eb8d', 'Facebook'),
+('1c3edcef-1d31-11f0-befd-54e1ad54eb8d', 'Instagram');
 
 -- --------------------------------------------------------
 
@@ -116,6 +125,15 @@ CREATE TABLE `subcategories` (
   `category_id` char(36) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subcategories`
+--
+
+INSERT INTO `subcategories` (`id`, `category_id`, `name`) VALUES
+('3f1aefd6-1d31-11f0-befd-54e1ad54eb8d', '140cb3ea-1d31-11f0-befd-54e1ad54eb8d', 'Softregs'),
+('4888ab17-1d31-11f0-befd-54e1ad54eb8d', '140cb3ea-1d31-11f0-befd-54e1ad54eb8d', 'Aged'),
+('62947872-1d31-11f0-befd-54e1ad54eb8d', '1c3edcef-1d31-11f0-befd-54e1ad54eb8d', 'Softregs');
 
 -- --------------------------------------------------------
 

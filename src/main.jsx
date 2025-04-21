@@ -1,14 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
 import 'rsuite/dist/rsuite.min.css';
-import { HelmetProvider } from 'react-helmet-async';
+import { ToastProvider } from './context/ToastProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <HelmetProvider>
+    <ToastProvider>
       <App />
-    </HelmetProvider>
-  </StrictMode>,
-)
+    </ToastProvider>
+  </StrictMode>
+);
